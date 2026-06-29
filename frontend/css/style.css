@@ -1,0 +1,337 @@
+/* ===========================
+   GENERAL
+=========================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:#f4f7fc;
+    color:#333;
+    line-height:1.6;
+}
+
+/* ===========================
+   HEADER
+=========================== */
+
+header{
+    background:#1e3a8a;
+    color:white;
+    text-align:center;
+    padding:20px;
+}
+
+header h1{
+    font-size:34px;
+    margin-bottom:5px;
+}
+
+header p{
+    font-size:16px;
+}
+
+/* ===========================
+   NAVIGATION
+=========================== */
+
+nav{
+    background:#2563eb;
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    padding:15px 20px;
+    transition:0.3s;
+}
+
+nav a:hover,
+nav a.active{
+    background:#1e40af;
+}
+
+/* ===========================
+   MAIN CONTENT
+=========================== */
+
+main{
+    width:90%;
+    max-width:1100px;
+    margin:30px auto;
+}
+
+section{
+    background:white;
+    margin-bottom:25px;
+    padding:25px;
+    border-radius:8px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.08);
+}
+
+section h2{
+    color:#1e3a8a;
+    margin-bottom:15px;
+    border-bottom:2px solid #2563eb;
+    padding-bottom:8px;
+}
+
+/* ===========================
+   TABLE
+=========================== */
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:15px;
+}
+
+table th{
+    background:#2563eb;
+    color:white;
+    padding:12px;
+}
+
+table td{
+    border:1px solid #ddd;
+    padding:12px;
+}
+
+table tr:nth-child(even){
+    background:#f8fafc;
+}
+
+table tr:hover{
+    background:#eef4ff;
+}
+
+/* ===========================
+   LIST
+=========================== */
+
+ul{
+    margin-left:20px;
+    margin-top:10px;
+}
+
+li{
+    margin-bottom:8px;
+}
+
+/* ===========================
+   FORM
+=========================== */
+
+form{
+    margin-top:15px;
+}
+
+.form-group{
+    margin-bottom:18px;
+}
+/* ===========================
+   FORM GRID
+=========================== */
+
+.form-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:20px;
+
+    margin-top:20px;
+
+}
+
+.form-group{
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+.form-group label{
+
+    font-weight:600;
+
+    margin-bottom:6px;
+
+    color:#1f2937;
+
+}
+
+.form-group input,
+.form-group select{
+
+    padding:10px;
+
+    border:1px solid #ccc;
+
+    border-radius:5px;
+
+    font-size:15px;
+
+    transition:.3s;
+
+}
+
+.form-group input:focus,
+.form-group select:focus{
+
+    border-color:#2563eb;
+
+    outline:none;
+
+}
+
+/* Buttons */
+
+.button-group{
+
+    margin-top:25px;
+
+    display:flex;
+
+    gap:12px;
+
+}
+
+.button-group button{
+
+    min-width:100px;
+
+}
+label{
+    display:block;
+    margin-bottom:6px;
+    font-weight:500;
+}
+
+input,
+select{
+    width:100%;
+    padding:10px;
+    border:1px solid #ccc;
+    border-radius:5px;
+    font-size:15px;
+}
+
+input:focus,
+select:focus{
+    outline:none;
+    border-color:#2563eb;
+}
+
+/* ===========================
+   BUTTONS
+=========================== */
+
+.button-group{
+    margin-top:20px;
+}
+
+button{
+    background:#2563eb;
+    color:white;
+    border:none;
+    padding:10px 20px;
+    margin-right:10px;
+    border-radius:5px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+button:hover{
+    background:#1e40af;
+}
+
+/* ===========================
+   SEARCH
+=========================== */
+
+.search-box{
+    margin:20px 0;
+}
+
+.search-box input{
+    width:350px;
+    max-width:100%;
+}
+
+/* ===========================
+   FOOTER
+=========================== */
+
+footer{
+    background:#1e3a8a;
+    color:white;
+    text-align:center;
+    padding:15px;
+    margin-top:40px;
+}
+/* Selected Table Row */
+
+tbody tr{
+    cursor:pointer;
+}
+
+tbody tr:hover{
+    background:#dbeafe !important;
+}
+/* ===========================
+   RESPONSIVE
+=========================== */
+
+@media(max-width:768px){
+
+nav{
+
+flex-direction:column;
+
+}
+
+nav a{
+
+text-align:center;
+
+border-top:1px solid rgba(255,255,255,.2);
+
+}
+
+main{
+
+width:95%;
+
+}
+
+.form-grid{
+
+grid-template-columns:1fr;
+
+}
+
+.button-group{
+
+flex-wrap:wrap;
+
+}
+
+table{
+
+display:block;
+
+overflow-x:auto;
+
+}
+
+}

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Departments | CareerBridge</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+<header>
+
+<h1>CareerBridge</h1>
+
+<p>Campus Placement Management System</p>
+
+</header>
+
+<nav>
+
+<a href="index.html">Home</a>
+<a href="students.html">Students</a>
+<a class="active" href="departments.html">Departments</a>
+<a href="companies.html">Companies</a>
+<a href="jobroles.html">Job Roles</a>
+<a href="drives.html">Placement Drives</a>
+<a href="applications.html">Applications</a>
+<a href="offers.html">Offers</a>
+<a href="reports.html">Reports</a>
+
+</nav>
+
+<main>
+
+<section>
+
+<h2>Department Management</h2>
+
+<form id="departmentForm">
+
+<div class="form-grid">
+
+<div class="form-group">
+
+<label>Department Name</label>
+
+<input
+type="text"
+id="departmentName"
+required>
+
+</div>
+
+<div class="form-group">
+
+<label>HOD Name</label>
+
+<input
+type="text"
+id="hodName"
+required>
+
+</div>
+
+</div>
+
+<div class="button-group">
+
+<button
+type="button"
+id="addBtn">
+
+Add
+
+</button>
+
+<button
+type="button"
+id="updateBtn">
+
+Update
+
+</button>
+
+<button
+type="button"
+id="deleteBtn">
+
+Delete
+
+</button>
+
+<button
+type="reset">
+
+Clear
+
+</button>
+
+</div>
+
+</form>
+
+</section>
+
+<section>
+
+<h2>Search Department</h2>
+
+<div class="search-box">
+
+<input
+type="text"
+id="search"
+placeholder="Search Department">
+
+</div>
+
+</section>
+
+<section>
+
+<h2>Department Records</h2>
+
+<table id="departmentTable">
+
+<thead>
+
+<tr>
+
+<th>ID</th>
+
+<th>Department</th>
+
+<th>Head of Department</th>
+
+</tr>
+
+</thead>
+
+<tbody id="departmentBody">
+
+<!-- Departments will be loaded from Oracle -->
+
+</tbody>
+
+</table>
+
+</section>
+
+</main>
+
+<footer>
+
+<p>
+
+© 2026 CareerBridge
+
+</p>
+
+</footer>
+
+<script src="js/departments.js"></script>
+
+</body>
+
+</html>
