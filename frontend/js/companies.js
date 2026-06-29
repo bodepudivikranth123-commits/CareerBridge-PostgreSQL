@@ -1,3 +1,5 @@
+const API = "https://careerbridge-postgresql.onrender.com";
+
 const table = document.getElementById("companyBody");
 
 const companyName = document.getElementById("companyName");
@@ -21,7 +23,7 @@ async function loadCompanies() {
 
     try {
 
-        const response = await fetch("http://localhost:3000/companies");
+        const response = await fetch(`${API}/companies`);
 
         const companies = await response.json();
 
@@ -32,21 +34,21 @@ async function loadCompanies() {
             let row = table.insertRow();
 
             row.innerHTML = `
-                <td>${company[0]}</td>
-                <td>${company[1]}</td>
-                <td>${company[2]}</td>
-                <td>${company[3]}</td>
-                <td>${company[4]}</td>
+                <td>${company.company_id}</td>
+                <td>${company.company_name}</td>
+                <td>${company.location}</td>
+                <td>${company.website}</td>
+                <td>${company.hr_email}</td>
             `;
 
             row.onclick = function () {
 
                 selectedRow = row;
 
-                companyName.value = company[1];
-                locationInput.value = company[2];
-                website.value = company[3];
-                hrEmail.value = company[4];
+                companyName.value = company.company_name;
+                locationInput.value = company.location;
+                website.value = company.website;
+                hrEmail.value = company.hr_email;
 
             };
 
@@ -72,7 +74,7 @@ addBtn.addEventListener("click", async function () {
 
     try {
 
-        const response = await fetch("http://localhost:3000/companies", {
+        const response = await fetch(`${API}/companies`, {
 
             method: "POST",
 
@@ -125,7 +127,7 @@ updateBtn.addEventListener("click", async function () {
 
     try {
 
-        const response = await fetch(`http://localhost:3000/companies/${id}`, {
+        const response = await fetch(`${API}/companies/${id}`, {
 
             method: "PUT",
 
@@ -181,7 +183,7 @@ deleteBtn.addEventListener("click", async function () {
 
     try {
 
-        const response = await fetch(`http://localhost:3000/companies/${id}`, {
+        const response = await fetch(`${API}/companies/${id}`, {
 
             method: "DELETE"
 

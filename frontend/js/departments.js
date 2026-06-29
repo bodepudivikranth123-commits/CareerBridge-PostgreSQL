@@ -1,3 +1,5 @@
+const API = "https://careerbridge-postgresql.onrender.com";
+
 const table = document.getElementById("departmentBody");
 
 const departmentInput = document.getElementById("departmentName");
@@ -19,7 +21,7 @@ async function loadDepartments() {
 
     try {
 
-        const response = await fetch("http://localhost:3000/departments");
+        const response = await fetch(`${API}/departments`);
 
         const departments = await response.json();
 
@@ -30,24 +32,24 @@ async function loadDepartments() {
             let row = table.insertRow();
 
             row.innerHTML = `
-                <td>${department[0]}</td>
-                <td>${department[1]}</td>
-                <td>${department[2]}</td>
+                <td>${department.department_id}</td>
+                <td>${department.department_name}</td>
+                <td>${department.hod_name}</td>
             `;
 
             row.onclick = function () {
 
                 selectedRow = row;
 
-                departmentInput.value = department[1];
-                hodInput.value = department[2];
+                departmentInput.value = department.department_name;
+                hodInput.value = department.hod_name;
 
             };
 
         });
 
     }
-    catch(err){
+    catch (err) {
 
         console.log(err);
 
@@ -61,22 +63,22 @@ loadDepartments();
    ADD DEPARTMENT
 =========================== */
 
-addBtn.addEventListener("click", async function(){
+addBtn.addEventListener("click", async function () {
 
-    try{
+    try {
 
-        const response = await fetch("http://localhost:3000/departments",{
+        const response = await fetch(`${API}/departments`, {
 
-            method:"POST",
+            method: "POST",
 
-            headers:{
-                "Content-Type":"application/json"
+            headers: {
+                "Content-Type": "application/json"
             },
 
-            body:JSON.stringify({
+            body: JSON.stringify({
 
-                department_name:departmentInput.value,
-                hod_name:hodInput.value
+                department_name: departmentInput.value,
+                hod_name: hodInput.value
 
             })
 
@@ -91,7 +93,7 @@ addBtn.addEventListener("click", async function(){
         clearForm();
 
     }
-    catch(err){
+    catch (err) {
 
         console.log(err);
 
@@ -103,9 +105,9 @@ addBtn.addEventListener("click", async function(){
    UPDATE DEPARTMENT
 =========================== */
 
-updateBtn.addEventListener("click", async function(){
+updateBtn.addEventListener("click", async function () {
 
-    if(selectedRow==null){
+    if (selectedRow == null) {
 
         alert("Select a Department.");
 
@@ -115,24 +117,24 @@ updateBtn.addEventListener("click", async function(){
 
     const id = selectedRow.cells[0].innerText;
 
-    try{
+    try {
 
         const response = await fetch(
 
-            `http://localhost:3000/departments/${id}`,
+            `${API}/departments/${id}`,
 
             {
 
-                method:"PUT",
+                method: "PUT",
 
-                headers:{
-                    "Content-Type":"application/json"
+                headers: {
+                    "Content-Type": "application/json"
                 },
 
-                body:JSON.stringify({
+                body: JSON.stringify({
 
-                    department_name:departmentInput.value,
-                    hod_name:hodInput.value
+                    department_name: departmentInput.value,
+                    hod_name: hodInput.value
 
                 })
 
@@ -149,7 +151,7 @@ updateBtn.addEventListener("click", async function(){
         clearForm();
 
     }
-    catch(err){
+    catch (err) {
 
         console.log(err);
 
@@ -161,9 +163,9 @@ updateBtn.addEventListener("click", async function(){
    DELETE DEPARTMENT
 =========================== */
 
-deleteBtn.addEventListener("click", async function(){
+deleteBtn.addEventListener("click", async function () {
 
-    if(selectedRow==null){
+    if (selectedRow == null) {
 
         alert("Select a Department.");
 
@@ -173,21 +175,21 @@ deleteBtn.addEventListener("click", async function(){
 
     const id = selectedRow.cells[0].innerText;
 
-    if(!confirm("Delete this Department?")){
+    if (!confirm("Delete this Department?")) {
 
         return;
 
     }
 
-    try{
+    try {
 
         const response = await fetch(
 
-            `http://localhost:3000/departments/${id}`,
+            `${API}/departments/${id}`,
 
             {
 
-                method:"DELETE"
+                method: "DELETE"
 
             }
 
@@ -202,7 +204,7 @@ deleteBtn.addEventListener("click", async function(){
         clearForm();
 
     }
-    catch(err){
+    catch (err) {
 
         console.log(err);
 
@@ -214,13 +216,13 @@ deleteBtn.addEventListener("click", async function(){
    SEARCH
 =========================== */
 
-search.addEventListener("keyup", function(){
+search.addEventListener("keyup", function () {
 
     let value = this.value.toLowerCase();
 
     let rows = table.getElementsByTagName("tr");
 
-    for(let row of rows){
+    for (let row of rows) {
 
         let department = row.cells[1].innerText.toLowerCase();
 
@@ -234,7 +236,7 @@ search.addEventListener("keyup", function(){
    CLEAR FORM
 =========================== */
 
-function clearForm(){
+function clearForm() {
 
     document.getElementById("departmentForm").reset();
 

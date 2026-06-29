@@ -1,3 +1,5 @@
+const API = "https://careerbridge-postgresql.onrender.com";
+
 const table = document.getElementById("driveBody");
 
 const company = document.getElementById("company");
@@ -18,22 +20,22 @@ let selectedRow = null;
    LOAD COMPANIES
 =========================== */
 
-async function loadCompanies(){
+async function loadCompanies() {
 
-    try{
+    try {
 
-        const response = await fetch("http://localhost:3000/companies");
+        const response = await fetch(`${API}/companies`);
 
         const companies = await response.json();
 
         company.innerHTML = "";
 
-        companies.forEach(c=>{
+        companies.forEach(c => {
 
             let option = document.createElement("option");
 
-            option.value = c[0];
-            option.textContent = c[1];
+            option.value = c.company_id;
+            option.textContent = c.company_name;
 
             company.appendChild(option);
 
@@ -41,7 +43,7 @@ async function loadCompanies(){
 
     }
 
-    catch(err){
+    catch (err) {
 
         console.log(err);
 
@@ -53,42 +55,42 @@ async function loadCompanies(){
    LOAD DRIVES
 =========================== */
 
-async function loadDrives(){
+async function loadDrives() {
 
-    try{
+    try {
 
-        const response = await fetch("http://localhost:3000/drives");
+        const response = await fetch(`${API}/drives`);
 
         const drives = await response.json();
 
         table.innerHTML = "";
 
-        drives.forEach(drive=>{
+        drives.forEach(drive => {
 
             let row = table.insertRow();
 
             row.innerHTML = `
-                <td>${drive[0]}</td>
-                <td>${drive[1]}</td>
-                <td>${drive[2].substring(0,10)}</td>
-                <td>${drive[3]}</td>
-                <td>${drive[4].substring(0,10)}</td>
-                <td>${drive[5]}</td>
+                <td>${drive.drive_id}</td>
+                <td>${drive.company_name}</td>
+                <td>${drive.drive_date.substring(0,10)}</td>
+                <td>${drive.venue}</td>
+                <td>${drive.registration_deadline.substring(0,10)}</td>
+                <td>${drive.status}</td>
             `;
 
-            row.onclick = function(){
+            row.onclick = function () {
 
                 selectedRow = row;
 
-                venue.value = drive[3];
-                status.value = drive[5];
+                venue.value = drive.venue;
+                status.value = drive.status;
 
-                driveDate.value = drive[2].substring(0,10);
-                deadline.value = drive[4].substring(0,10);
+                driveDate.value = drive.drive_date.substring(0,10);
+                deadline.value = drive.registration_deadline.substring(0,10);
 
-                for(let option of company.options){
+                for (let option of company.options) {
 
-                    if(option.text === drive[1]){
+                    if (option.text === drive.company_name) {
 
                         company.value = option.value;
 
@@ -104,7 +106,7 @@ async function loadDrives(){
 
     }
 
-    catch(err){
+    catch (err) {
 
         console.log(err);
 
@@ -119,25 +121,25 @@ loadDrives();
    ADD DRIVE
 =========================== */
 
-addBtn.addEventListener("click", async function(){
+addBtn.addEventListener("click", async function () {
 
-    try{
+    try {
 
-        const response = await fetch("http://localhost:3000/drives",{
+        const response = await fetch(`${API}/drives`, {
 
-            method:"POST",
+            method: "POST",
 
-            headers:{
-                "Content-Type":"application/json"
+            headers: {
+                "Content-Type": "application/json"
             },
 
-            body:JSON.stringify({
+            body: JSON.stringify({
 
-                company_id:parseInt(company.value),
-                drive_date:driveDate.value,
-                venue:venue.value,
-                registration_deadline:deadline.value,
-                status:status.value
+                company_id: parseInt(company.value),
+                drive_date: driveDate.value,
+                venue: venue.value,
+                registration_deadline: deadline.value,
+                status: status.value
 
             })
 
@@ -151,20 +153,21 @@ addBtn.addEventListener("click", async function(){
 
     }
 
-    catch(err){
+    catch (err) {
 
         console.log(err);
 
     }
 
 });
+
 /* ===========================
    UPDATE DRIVE
 =========================== */
 
-updateBtn.addEventListener("click", async function(){
+updateBtn.addEventListener("click", async function () {
 
-    if(selectedRow == null){
+    if (selectedRow == null) {
 
         alert("Select a Placement Drive.");
 
@@ -174,27 +177,27 @@ updateBtn.addEventListener("click", async function(){
 
     const id = selectedRow.cells[0].innerText;
 
-    try{
+    try {
 
         const response = await fetch(
 
-            `http://localhost:3000/drives/${id}`,
+            `${API}/drives/${id}`,
 
             {
 
-                method:"PUT",
+                method: "PUT",
 
-                headers:{
-                    "Content-Type":"application/json"
+                headers: {
+                    "Content-Type": "application/json"
                 },
 
-                body:JSON.stringify({
+                body: JSON.stringify({
 
-                    company_id:parseInt(company.value),
-                    drive_date:driveDate.value,
-                    venue:venue.value,
-                    registration_deadline:deadline.value,
-                    status:status.value
+                    company_id: parseInt(company.value),
+                    drive_date: driveDate.value,
+                    venue: venue.value,
+                    registration_deadline: deadline.value,
+                    status: status.value
 
                 })
 
@@ -210,7 +213,7 @@ updateBtn.addEventListener("click", async function(){
 
     }
 
-    catch(err){
+    catch (err) {
 
         console.log(err);
 
@@ -222,9 +225,9 @@ updateBtn.addEventListener("click", async function(){
    DELETE DRIVE
 =========================== */
 
-deleteBtn.addEventListener("click", async function(){
+deleteBtn.addEventListener("click", async function () {
 
-    if(selectedRow == null){
+    if (selectedRow == null) {
 
         alert("Select a Placement Drive.");
 
@@ -232,7 +235,7 @@ deleteBtn.addEventListener("click", async function(){
 
     }
 
-    if(!confirm("Delete this Placement Drive?")){
+    if (!confirm("Delete this Placement Drive?")) {
 
         return;
 
@@ -240,15 +243,15 @@ deleteBtn.addEventListener("click", async function(){
 
     const id = selectedRow.cells[0].innerText;
 
-    try{
+    try {
 
         const response = await fetch(
 
-            `http://localhost:3000/drives/${id}`,
+            `${API}/drives/${id}`,
 
             {
 
-                method:"DELETE"
+                method: "DELETE"
 
             }
 
@@ -262,7 +265,7 @@ deleteBtn.addEventListener("click", async function(){
 
     }
 
-    catch(err){
+    catch (err) {
 
         console.log(err);
 
@@ -274,13 +277,13 @@ deleteBtn.addEventListener("click", async function(){
    SEARCH
 =========================== */
 
-search.addEventListener("keyup", function(){
+search.addEventListener("keyup", function () {
 
     let value = this.value.toLowerCase();
 
     let rows = table.getElementsByTagName("tr");
 
-    for(let row of rows){
+    for (let row of rows) {
 
         let companyName = row.cells[1].innerText.toLowerCase();
 
@@ -294,7 +297,7 @@ search.addEventListener("keyup", function(){
    CLEAR FORM
 =========================== */
 
-function clearForm(){
+function clearForm() {
 
     document.getElementById("driveForm").reset();
 

@@ -1,3 +1,5 @@
+const API = "https://careerbridge-postgresql.onrender.com";
+
 const table = document.getElementById("applicationBody");
 
 const student = document.getElementById("student");
@@ -17,22 +19,22 @@ let selectedRow = null;
    LOAD STUDENTS
 =========================== */
 
-async function loadStudents(){
+async function loadStudents() {
 
-    try{
+    try {
 
-        const response = await fetch("http://localhost:3000/students");
+        const response = await fetch(`${API}/students`);
 
         const students = await response.json();
 
         student.innerHTML = "";
 
-        students.forEach(s=>{
+        students.forEach(s => {
 
             let option = document.createElement("option");
 
-            option.value = s[0];
-            option.textContent = s[1];
+            option.value = s.student_id;
+            option.textContent = s.full_name;
 
             student.appendChild(option);
 
@@ -40,7 +42,7 @@ async function loadStudents(){
 
     }
 
-    catch(err){
+    catch (err) {
 
         console.log(err);
 
@@ -52,23 +54,23 @@ async function loadStudents(){
    LOAD JOB ROLES
 =========================== */
 
-async function loadJobRoles(){
+async function loadJobRoles() {
 
-    try{
+    try {
 
-        const response = await fetch("http://localhost:3000/jobroles");
+        const response = await fetch(`${API}/jobroles`);
 
         const roles = await response.json();
 
         jobRole.innerHTML = "";
 
-        roles.forEach(r=>{
+        roles.forEach(r => {
 
             let option = document.createElement("option");
 
-            option.value = r[0];
+            option.value = r.role_id;
 
-            option.textContent = r[2] + " - " + r[1];
+            option.textContent = r.company_name + " - " + r.role_name;
 
             jobRole.appendChild(option);
 
@@ -76,7 +78,7 @@ async function loadJobRoles(){
 
     }
 
-    catch(err){
+    catch (err) {
 
         console.log(err);
 
@@ -88,54 +90,52 @@ async function loadJobRoles(){
    LOAD APPLICATIONS
 =========================== */
 
-async function loadApplications(){
+async function loadApplications() {
 
-    try{
+    try {
 
-        const response = await fetch("http://localhost:3000/applications");
+        const response = await fetch(`${API}/applications`);
 
         const applications = await response.json();
 
         table.innerHTML = "";
 
-        applications.forEach(app=>{
+        applications.forEach(app => {
 
             let row = table.insertRow();
 
             row.innerHTML = `
-                <td>${app[0]}</td>
-                <td>${app[1]}</td>
-                <td>${app[2]}</td>
-                <td>${app[3].substring(0,10)}</td>
-                <td>${app[4]}</td>
+                <td>${app.application_id}</td>
+                <td>${app.full_name}</td>
+                <td>${app.job_role}</td>
+                <td>${app.application_date.substring(0,10)}</td>
+                <td>${app.status}</td>
             `;
 
-            row.onclick = function(){
+            row.onclick = function () {
 
                 selectedRow = row;
 
-                applicationDate.value = app[3].substring(0,10);
+                applicationDate.value = app.application_date.substring(0,10);
 
-                status.value = app[4];
+                status.value = app.status;
 
-                for(let option of student.options){
+                for (let option of student.options) {
 
-                    if(option.text===app[1]){
+                    if (option.text === app.full_name) {
 
-                        student.value=option.value;
-
+                        student.value = option.value;
                         break;
 
                     }
 
                 }
 
-                for(let option of jobRole.options){
+                for (let option of jobRole.options) {
 
-                    if(option.text===app[2]){
+                    if (option.text === app.job_role) {
 
-                        jobRole.value=option.value;
-
+                        jobRole.value = option.value;
                         break;
 
                     }
@@ -148,7 +148,7 @@ async function loadApplications(){
 
     }
 
-    catch(err){
+    catch (err) {
 
         console.log(err);
 
@@ -164,27 +164,27 @@ loadApplications();
    ADD APPLICATION
 =========================== */
 
-addBtn.addEventListener("click",async function(){
+addBtn.addEventListener("click", async function () {
 
-    try{
+    try {
 
-        const response=await fetch("http://localhost:3000/applications",{
+        const response = await fetch(`${API}/applications`, {
 
-            method:"POST",
+            method: "POST",
 
-            headers:{
-                "Content-Type":"application/json"
+            headers: {
+                "Content-Type": "application/json"
             },
 
-            body:JSON.stringify({
+            body: JSON.stringify({
 
-                student_id:parseInt(student.value),
+                student_id: parseInt(student.value),
 
-                role_id:parseInt(jobRole.value),
+                role_id: parseInt(jobRole.value),
 
-                application_date:applicationDate.value,
+                application_date: applicationDate.value,
 
-                status:status.value
+                status: status.value
 
             })
 
@@ -198,20 +198,21 @@ addBtn.addEventListener("click",async function(){
 
     }
 
-    catch(err){
+    catch (err) {
 
         console.log(err);
 
     }
 
 });
+
 /* ===========================
    UPDATE APPLICATION
 =========================== */
 
-updateBtn.addEventListener("click", async function(){
+updateBtn.addEventListener("click", async function () {
 
-    if(selectedRow == null){
+    if (selectedRow == null) {
 
         alert("Select an Application.");
 
@@ -221,29 +222,29 @@ updateBtn.addEventListener("click", async function(){
 
     const id = selectedRow.cells[0].innerText;
 
-    try{
+    try {
 
         const response = await fetch(
 
-            `http://localhost:3000/applications/${id}`,
+            `${API}/applications/${id}`,
 
             {
 
-                method:"PUT",
+                method: "PUT",
 
-                headers:{
-                    "Content-Type":"application/json"
+                headers: {
+                    "Content-Type": "application/json"
                 },
 
-                body:JSON.stringify({
+                body: JSON.stringify({
 
-                    student_id:parseInt(student.value),
+                    student_id: parseInt(student.value),
 
-                    role_id:parseInt(jobRole.value),
+                    role_id: parseInt(jobRole.value),
 
-                    application_date:applicationDate.value,
+                    application_date: applicationDate.value,
 
-                    status:status.value
+                    status: status.value
 
                 })
 
@@ -259,7 +260,7 @@ updateBtn.addEventListener("click", async function(){
 
     }
 
-    catch(err){
+    catch (err) {
 
         console.log(err);
 
@@ -267,14 +268,13 @@ updateBtn.addEventListener("click", async function(){
 
 });
 
-
 /* ===========================
    DELETE APPLICATION
 =========================== */
 
-deleteBtn.addEventListener("click", async function(){
+deleteBtn.addEventListener("click", async function () {
 
-    if(selectedRow == null){
+    if (selectedRow == null) {
 
         alert("Select an Application.");
 
@@ -282,7 +282,7 @@ deleteBtn.addEventListener("click", async function(){
 
     }
 
-    if(!confirm("Delete this Application?")){
+    if (!confirm("Delete this Application?")) {
 
         return;
 
@@ -290,15 +290,15 @@ deleteBtn.addEventListener("click", async function(){
 
     const id = selectedRow.cells[0].innerText;
 
-    try{
+    try {
 
         const response = await fetch(
 
-            `http://localhost:3000/applications/${id}`,
+            `${API}/applications/${id}`,
 
             {
 
-                method:"DELETE"
+                method: "DELETE"
 
             }
 
@@ -312,7 +312,7 @@ deleteBtn.addEventListener("click", async function(){
 
     }
 
-    catch(err){
+    catch (err) {
 
         console.log(err);
 
@@ -320,18 +320,17 @@ deleteBtn.addEventListener("click", async function(){
 
 });
 
-
 /* ===========================
    SEARCH
 =========================== */
 
-search.addEventListener("keyup", function(){
+search.addEventListener("keyup", function () {
 
     let value = this.value.toLowerCase();
 
     let rows = table.getElementsByTagName("tr");
 
-    for(let row of rows){
+    for (let row of rows) {
 
         let studentName = row.cells[1].innerText.toLowerCase();
 
@@ -341,12 +340,11 @@ search.addEventListener("keyup", function(){
 
 });
 
-
 /* ===========================
    CLEAR FORM
 =========================== */
 
-function clearForm(){
+function clearForm() {
 
     document.getElementById("applicationForm").reset();
 

@@ -1,8 +1,10 @@
-async function loadReports(){
+const API = "https://careerbridge-postgresql.onrender.com";
 
-    try{
+async function loadReports() {
 
-        const response = await fetch("http://localhost:3000/reports");
+    try {
+
+        const response = await fetch(`${API}/reports`);
 
         const data = await response.json();
 
@@ -10,20 +12,20 @@ async function loadReports(){
            Students By Department
         ----------------------------- */
 
-        let table=document.querySelector("#studentsDeptTable");
+        let table = document.querySelector("#studentsDeptTable");
 
-        table.innerHTML=`
+        table.innerHTML = `
         <tr>
             <th>Department</th>
             <th>Total Students</th>
         </tr>`;
 
-        data.studentsByDepartment.forEach(r=>{
+        data.studentsByDepartment.forEach(r => {
 
-            table.innerHTML+=`
+            table.innerHTML += `
             <tr>
-                <td>${r[0]}</td>
-                <td>${r[1]}</td>
+                <td>${r.department_name}</td>
+                <td>${r.total_students}</td>
             </tr>`;
 
         });
@@ -32,25 +34,23 @@ async function loadReports(){
            Highest Package
         ----------------------------- */
 
-   
+        table = document.querySelector("#highestPackageTable");
 
-         table = document.querySelector("#highestPackageTable");
-
-         table.innerHTML = `
+        table.innerHTML = `
         <tr>
-         <th>Company</th>
-         <th>Role</th>
-         <th>Package (LPA)</th>
+            <th>Company</th>
+            <th>Role</th>
+            <th>Package (LPA)</th>
         </tr>`;
 
-         data.highestPackage.forEach(r => {
+        data.highestPackage.forEach(r => {
 
-           table.innerHTML += `
+            table.innerHTML += `
             <tr>
-             <td>${r[0]}</td>
-             <td>${r[1]}</td>
-             <td>${r[2]}</td>
-             </tr>`;
+                <td>${r.company_name}</td>
+                <td>${r.role_name}</td>
+                <td>${r.package_lpa}</td>
+            </tr>`;
 
         });
 
@@ -58,18 +58,19 @@ async function loadReports(){
            Average CGPA
         ----------------------------- */
 
-        table=document.querySelector("#avgCgpaTable");
+        table = document.querySelector("#avgCgpaTable");
 
-        table.innerHTML=`
+        table.innerHTML = `
         <tr>
             <th>Average CGPA</th>
         </tr>`;
 
-        table.innerHTML+=`
+        table.innerHTML += `
         <tr>
-            <td>${data.averageCGPA[0][0]}</td>
+            <td>${data.averageCGPA[0].average_cgpa}</td>
         </tr>`;
-                /* -----------------------------
+
+        /* -----------------------------
            Selected Students
         ----------------------------- */
 
@@ -86,9 +87,9 @@ async function loadReports(){
 
             table.innerHTML += `
             <tr>
-                <td>${r[0]}</td>
-                <td>${r[1]}</td>
-                <td>${r[2]}</td>
+                <td>${r.full_name}</td>
+                <td>${r.company_name}</td>
+                <td>${r.role_name}</td>
             </tr>`;
 
         });
@@ -109,8 +110,8 @@ async function loadReports(){
 
             table.innerHTML += `
             <tr>
-                <td>${r[0]}</td>
-                <td>${r[1]}</td>
+                <td>${r.company_name}</td>
+                <td>${r.total_applications}</td>
             </tr>`;
 
         });
@@ -132,9 +133,9 @@ async function loadReports(){
 
             table.innerHTML += `
             <tr>
-                <td>${r[0]}</td>
-                <td>${String(r[1]).substring(0,10)}</td>
-                <td>${r[2]}</td>
+                <td>${r.company_name}</td>
+                <td>${String(r.drive_date).substring(0,10)}</td>
+                <td>${r.venue}</td>
             </tr>`;
 
         });
@@ -155,8 +156,8 @@ async function loadReports(){
 
             table.innerHTML += `
             <tr>
-                <td>${r[0]}</td>
-                <td>${r[1]}</td>
+                <td>${r.company_name}</td>
+                <td>${r.salary_lpa}</td>
             </tr>`;
 
         });
@@ -174,12 +175,12 @@ async function loadReports(){
 
         table.innerHTML += `
         <tr>
-            <td>${data.totalOffers[0][0]}</td>
+            <td>${data.totalOffers[0].total_offers}</td>
         </tr>`;
 
     }
 
-    catch(err){
+    catch (err) {
 
         console.log(err);
 

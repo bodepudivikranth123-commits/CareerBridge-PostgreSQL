@@ -1,3 +1,5 @@
+const API = "https://careerbridge-postgresql.onrender.com";
+
 const table = document.getElementById("jobBody");
 
 const roleName = document.getElementById("roleName");
@@ -18,23 +20,22 @@ let selectedRow = null;
    LOAD COMPANIES
 =========================== */
 
-async function loadCompanies(){
+async function loadCompanies() {
 
-    try{
+    try {
 
-        const response = await fetch("http://localhost:3000/companies");
+        const response = await fetch(`${API}/companies`);
 
         const companies = await response.json();
 
         company.innerHTML = "";
 
-        companies.forEach(c=>{
+        companies.forEach(c => {
 
             let option = document.createElement("option");
 
-            option.value = c[0];
-
-            option.textContent = c[1];
+            option.value = c.company_id;
+            option.textContent = c.company_name;
 
             company.appendChild(option);
 
@@ -42,7 +43,7 @@ async function loadCompanies(){
 
     }
 
-    catch(err){
+    catch (err) {
 
         console.log(err);
 
@@ -54,41 +55,41 @@ async function loadCompanies(){
    LOAD JOB ROLES
 =========================== */
 
-async function loadJobRoles(){
+async function loadJobRoles() {
 
-    try{
+    try {
 
-        const response = await fetch("http://localhost:3000/jobroles");
+        const response = await fetch(`${API}/jobroles`);
 
         const jobs = await response.json();
 
         table.innerHTML = "";
 
-        jobs.forEach(job=>{
+        jobs.forEach(job => {
 
             let row = table.insertRow();
 
             row.innerHTML = `
-                <td>${job[0]}</td>
-                <td>${job[1]}</td>
-                <td>${job[2]}</td>
-                <td>${job[3]}</td>
-                <td>${job[4]}</td>
-                <td>${job[5]}</td>
+                <td>${job.role_id}</td>
+                <td>${job.role_name}</td>
+                <td>${job.company_name}</td>
+                <td>${job.salary_lpa}</td>
+                <td>${job.minimum_cgpa}</td>
+                <td>${job.vacancies}</td>
             `;
 
-            row.onclick = function(){
+            row.onclick = function () {
 
                 selectedRow = row;
 
-                roleName.value = job[1];
-                salary.value = job[3];
-                cgpa.value = job[4];
-                vacancies.value = job[5];
+                roleName.value = job.role_name;
+                salary.value = job.salary_lpa;
+                cgpa.value = job.minimum_cgpa;
+                vacancies.value = job.vacancies;
 
-                for(let option of company.options){
+                for (let option of company.options) {
 
-                    if(option.text === job[2]){
+                    if (option.text === job.company_name) {
 
                         company.value = option.value;
                         break;
@@ -103,7 +104,7 @@ async function loadJobRoles(){
 
     }
 
-    catch(err){
+    catch (err) {
 
         console.log(err);
 
@@ -118,25 +119,25 @@ loadJobRoles();
    ADD JOB ROLE
 =========================== */
 
-addBtn.addEventListener("click",async function(){
+addBtn.addEventListener("click", async function () {
 
-    try{
+    try {
 
-        const response = await fetch("http://localhost:3000/jobroles",{
+        const response = await fetch(`${API}/jobroles`, {
 
-            method:"POST",
+            method: "POST",
 
-            headers:{
-                "Content-Type":"application/json"
+            headers: {
+                "Content-Type": "application/json"
             },
 
-            body:JSON.stringify({
+            body: JSON.stringify({
 
-                company_id:parseInt(company.value),
-                role_name:roleName.value,
-                salary_lpa:parseFloat(salary.value),
-                minimum_cgpa:parseFloat(cgpa.value),
-                vacancies:parseInt(vacancies.value)
+                company_id: parseInt(company.value),
+                role_name: roleName.value,
+                salary_lpa: parseFloat(salary.value),
+                minimum_cgpa: parseFloat(cgpa.value),
+                vacancies: parseInt(vacancies.value)
 
             })
 
@@ -150,20 +151,21 @@ addBtn.addEventListener("click",async function(){
 
     }
 
-    catch(err){
+    catch (err) {
 
         console.log(err);
 
     }
 
 });
+
 /* ===========================
    UPDATE JOB ROLE
 =========================== */
 
-updateBtn.addEventListener("click", async function(){
+updateBtn.addEventListener("click", async function () {
 
-    if(selectedRow == null){
+    if (selectedRow == null) {
 
         alert("Select a Job Role.");
 
@@ -173,27 +175,27 @@ updateBtn.addEventListener("click", async function(){
 
     const id = selectedRow.cells[0].innerText;
 
-    try{
+    try {
 
         const response = await fetch(
 
-            `http://localhost:3000/jobroles/${id}`,
+            `${API}/jobroles/${id}`,
 
             {
 
-                method:"PUT",
+                method: "PUT",
 
-                headers:{
-                    "Content-Type":"application/json"
+                headers: {
+                    "Content-Type": "application/json"
                 },
 
-                body:JSON.stringify({
+                body: JSON.stringify({
 
-                    company_id:parseInt(company.value),
-                    role_name:roleName.value,
-                    salary_lpa:parseFloat(salary.value),
-                    minimum_cgpa:parseFloat(cgpa.value),
-                    vacancies:parseInt(vacancies.value)
+                    company_id: parseInt(company.value),
+                    role_name: roleName.value,
+                    salary_lpa: parseFloat(salary.value),
+                    minimum_cgpa: parseFloat(cgpa.value),
+                    vacancies: parseInt(vacancies.value)
 
                 })
 
@@ -209,7 +211,7 @@ updateBtn.addEventListener("click", async function(){
 
     }
 
-    catch(err){
+    catch (err) {
 
         console.log(err);
 
@@ -221,9 +223,9 @@ updateBtn.addEventListener("click", async function(){
    DELETE JOB ROLE
 =========================== */
 
-deleteBtn.addEventListener("click", async function(){
+deleteBtn.addEventListener("click", async function () {
 
-    if(selectedRow == null){
+    if (selectedRow == null) {
 
         alert("Select a Job Role.");
 
@@ -231,7 +233,7 @@ deleteBtn.addEventListener("click", async function(){
 
     }
 
-    if(!confirm("Delete this Job Role?")){
+    if (!confirm("Delete this Job Role?")) {
 
         return;
 
@@ -239,15 +241,15 @@ deleteBtn.addEventListener("click", async function(){
 
     const id = selectedRow.cells[0].innerText;
 
-    try{
+    try {
 
         const response = await fetch(
 
-            `http://localhost:3000/jobroles/${id}`,
+            `${API}/jobroles/${id}`,
 
             {
 
-                method:"DELETE"
+                method: "DELETE"
 
             }
 
@@ -261,7 +263,7 @@ deleteBtn.addEventListener("click", async function(){
 
     }
 
-    catch(err){
+    catch (err) {
 
         console.log(err);
 
@@ -273,13 +275,13 @@ deleteBtn.addEventListener("click", async function(){
    SEARCH
 =========================== */
 
-search.addEventListener("keyup", function(){
+search.addEventListener("keyup", function () {
 
     let value = this.value.toLowerCase();
 
     let rows = table.getElementsByTagName("tr");
 
-    for(let row of rows){
+    for (let row of rows) {
 
         let role = row.cells[1].innerText.toLowerCase();
 
@@ -293,7 +295,7 @@ search.addEventListener("keyup", function(){
    CLEAR FORM
 =========================== */
 
-function clearForm(){
+function clearForm() {
 
     document.getElementById("jobRoleForm").reset();
 

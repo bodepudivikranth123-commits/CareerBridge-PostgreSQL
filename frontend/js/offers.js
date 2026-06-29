@@ -1,3 +1,5 @@
+const API = "https://careerbridge-postgresql.onrender.com";
+
 const table = document.getElementById("offerBody");
 
 const application = document.getElementById("application");
@@ -17,23 +19,22 @@ let selectedRow = null;
    LOAD APPLICATIONS
 =========================== */
 
-async function loadApplications(){
+async function loadApplications() {
 
-    try{
+    try {
 
-        const response = await fetch("http://localhost:3000/applications");
+        const response = await fetch(`${API}/applications`);
 
         const applications = await response.json();
 
         application.innerHTML = "";
 
-        applications.forEach(app=>{
+        applications.forEach(app => {
 
             let option = document.createElement("option");
 
-            option.value = app[0];
-
-            option.textContent = app[0];
+            option.value = app.application_id;
+            option.textContent = app.application_id;
 
             application.appendChild(option);
 
@@ -41,7 +42,7 @@ async function loadApplications(){
 
     }
 
-    catch(err){
+    catch (err) {
 
         console.log(err);
 
@@ -53,36 +54,36 @@ async function loadApplications(){
    LOAD OFFERS
 =========================== */
 
-async function loadOffers(){
+async function loadOffers() {
 
-    try{
+    try {
 
-        const response = await fetch("http://localhost:3000/offers");
+        const response = await fetch(`${API}/offers`);
 
         const offers = await response.json();
 
-        table.innerHTML="";
+        table.innerHTML = "";
 
-        offers.forEach(offer=>{
+        offers.forEach(offer => {
 
             let row = table.insertRow();
 
-            row.innerHTML=`
-                <td>${offer[0]}</td>
-                <td>${offer[1]}</td>
-                <td>${offer[2]}</td>
-                <td>${offer[3].substring(0,10)}</td>
-                <td>${offer[4]}</td>
+            row.innerHTML = `
+                <td>${offer.offer_id}</td>
+                <td>${offer.application_id}</td>
+                <td>${offer.package_lpa}</td>
+                <td>${offer.joining_date.substring(0,10)}</td>
+                <td>${offer.offer_status}</td>
             `;
 
-            row.onclick=function(){
+            row.onclick = function () {
 
-                selectedRow=row;
+                selectedRow = row;
 
-                application.value=offer[1];
-                packageInput.value=offer[2];
-                joiningDate.value=offer[3].substring(0,10);
-                offerStatus.value=offer[4];
+                application.value = offer.application_id;
+                packageInput.value = offer.package_lpa;
+                joiningDate.value = offer.joining_date.substring(0,10);
+                offerStatus.value = offer.offer_status;
 
             };
 
@@ -90,7 +91,7 @@ async function loadOffers(){
 
     }
 
-    catch(err){
+    catch (err) {
 
         console.log(err);
 
@@ -105,24 +106,24 @@ loadOffers();
    ADD OFFER
 =========================== */
 
-addBtn.addEventListener("click",async function(){
+addBtn.addEventListener("click", async function () {
 
-    try{
+    try {
 
-        const response=await fetch("http://localhost:3000/offers",{
+        const response = await fetch(`${API}/offers`, {
 
-            method:"POST",
+            method: "POST",
 
-            headers:{
-                "Content-Type":"application/json"
+            headers: {
+                "Content-Type": "application/json"
             },
 
-            body:JSON.stringify({
+            body: JSON.stringify({
 
-                application_id:parseInt(application.value),
-                package_lpa:parseFloat(packageInput.value),
-                joining_date:joiningDate.value,
-                offer_status:offerStatus.value
+                application_id: parseInt(application.value),
+                package_lpa: parseFloat(packageInput.value),
+                joining_date: joiningDate.value,
+                offer_status: offerStatus.value
 
             })
 
@@ -136,20 +137,21 @@ addBtn.addEventListener("click",async function(){
 
     }
 
-    catch(err){
+    catch (err) {
 
         console.log(err);
 
     }
 
 });
+
 /* ===========================
    UPDATE OFFER
 =========================== */
 
-updateBtn.addEventListener("click", async function(){
+updateBtn.addEventListener("click", async function () {
 
-    if(selectedRow == null){
+    if (selectedRow == null) {
 
         alert("Select an Offer.");
 
@@ -159,26 +161,26 @@ updateBtn.addEventListener("click", async function(){
 
     const id = selectedRow.cells[0].innerText;
 
-    try{
+    try {
 
         const response = await fetch(
 
-            `http://localhost:3000/offers/${id}`,
+            `${API}/offers/${id}`,
 
             {
 
-                method:"PUT",
+                method: "PUT",
 
-                headers:{
-                    "Content-Type":"application/json"
+                headers: {
+                    "Content-Type": "application/json"
                 },
 
-                body:JSON.stringify({
+                body: JSON.stringify({
 
-                    application_id:parseInt(application.value),
-                    package_lpa:parseFloat(packageInput.value),
-                    joining_date:joiningDate.value,
-                    offer_status:offerStatus.value
+                    application_id: parseInt(application.value),
+                    package_lpa: parseFloat(packageInput.value),
+                    joining_date: joiningDate.value,
+                    offer_status: offerStatus.value
 
                 })
 
@@ -194,7 +196,7 @@ updateBtn.addEventListener("click", async function(){
 
     }
 
-    catch(err){
+    catch (err) {
 
         console.log(err);
 
@@ -202,14 +204,13 @@ updateBtn.addEventListener("click", async function(){
 
 });
 
-
 /* ===========================
    DELETE OFFER
 =========================== */
 
-deleteBtn.addEventListener("click", async function(){
+deleteBtn.addEventListener("click", async function () {
 
-    if(selectedRow == null){
+    if (selectedRow == null) {
 
         alert("Select an Offer.");
 
@@ -217,7 +218,7 @@ deleteBtn.addEventListener("click", async function(){
 
     }
 
-    if(!confirm("Delete this Offer?")){
+    if (!confirm("Delete this Offer?")) {
 
         return;
 
@@ -225,15 +226,15 @@ deleteBtn.addEventListener("click", async function(){
 
     const id = selectedRow.cells[0].innerText;
 
-    try{
+    try {
 
         const response = await fetch(
 
-            `http://localhost:3000/offers/${id}`,
+            `${API}/offers/${id}`,
 
             {
 
-                method:"DELETE"
+                method: "DELETE"
 
             }
 
@@ -247,7 +248,7 @@ deleteBtn.addEventListener("click", async function(){
 
     }
 
-    catch(err){
+    catch (err) {
 
         console.log(err);
 
@@ -255,18 +256,17 @@ deleteBtn.addEventListener("click", async function(){
 
 });
 
-
 /* ===========================
    SEARCH
 =========================== */
 
-search.addEventListener("keyup", function(){
+search.addEventListener("keyup", function () {
 
     let value = this.value.toLowerCase();
 
     let rows = table.getElementsByTagName("tr");
 
-    for(let row of rows){
+    for (let row of rows) {
 
         let applicationId = row.cells[1].innerText.toLowerCase();
 
@@ -276,12 +276,11 @@ search.addEventListener("keyup", function(){
 
 });
 
-
 /* ===========================
    CLEAR FORM
 =========================== */
 
-function clearForm(){
+function clearForm() {
 
     document.getElementById("offerForm").reset();
 

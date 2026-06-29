@@ -1,3 +1,5 @@
+const API = "https://careerbridge-postgresql.onrender.com";
+
 const table = document.getElementById("studentBody");
 
 const nameInput = document.getElementById("name");
@@ -17,14 +19,14 @@ const searchInput = document.getElementById("search");
 let selectedRow = null;
 
 /* -----------------------------
-   Load Students From Oracle
+   Load Students
 ----------------------------- */
 
 async function loadStudents() {
 
     try {
 
-        const response = await fetch("http://localhost:3000/students");
+        const response = await fetch(`${API}/students`);
 
         const students = await response.json();
 
@@ -35,31 +37,35 @@ async function loadStudents() {
             let row = table.insertRow();
 
             row.innerHTML = `
-                <td>${student[0]}</td>
-                <td>${student[1]}</td>
-                <td>${student[2]}</td>
-                <td>${student[3]}</td>
-                <td>${student[4]}</td>
-                <td>${student[6]}</td>
-                <td>${student[8]}</td>
+                <td>${student.student_id}</td>
+                <td>${student.full_name}</td>
+                <td>${student.email}</td>
+                <td>${student.phone}</td>
+                <td>${student.gender}</td>
+                <td>${student.cgpa}</td>
+                <td>${student.department_name}</td>
             `;
 
             row.onclick = function () {
 
                 selectedRow = row;
 
-                nameInput.value = student[1];
-                emailInput.value = student[2];
-                phoneInput.value = student[3];
-                genderInput.value = student[4];
-                cgpaInput.value = student[6];
+                nameInput.value = student.full_name;
+                emailInput.value = student.email;
+                phoneInput.value = student.phone;
+                genderInput.value = student.gender;
+                dobInput.value = student.dob
+                    ? student.dob.toString().split("T")[0]
+                    : "";
+                cgpaInput.value = student.cgpa;
 
             };
 
         });
 
     }
-    catch(err){
+
+    catch (err) {
 
         console.log(err);
 
@@ -104,10 +110,7 @@ searchInput.addEventListener("keyup", function () {
 
         let name = row.cells[1].innerText.toLowerCase();
 
-        if (name.includes(value))
-            row.style.display = "";
-        else
-            row.style.display = "none";
+        row.style.display = name.includes(value) ? "" : "none";
 
     }
 
@@ -121,7 +124,7 @@ addBtn.addEventListener("click", async function () {
 
     try {
 
-        const response = await fetch("http://localhost:3000/students", {
+        const response = await fetch(`${API}/students`, {
 
             method: "POST",
 
@@ -153,7 +156,8 @@ addBtn.addEventListener("click", async function () {
         document.getElementById("studentForm").reset();
 
     }
-    catch(err){
+
+    catch (err) {
 
         console.log(err);
 
@@ -178,7 +182,7 @@ updateBtn.addEventListener("click", async function () {
 
     try {
 
-        const response = await fetch(`http://localhost:3000/students/${id}`, {
+        const response = await fetch(`${API}/students/${id}`, {
 
             method: "PUT",
 
@@ -210,13 +214,15 @@ updateBtn.addEventListener("click", async function () {
         clearForm();
 
     }
-    catch(err){
+
+    catch (err) {
 
         console.log(err);
 
     }
 
 });
+
 /* -----------------------------
    Delete Student
 ----------------------------- */
@@ -238,7 +244,7 @@ deleteBtn.addEventListener("click", async function () {
 
     try {
 
-        const response = await fetch(`http://localhost:3000/students/${id}`, {
+        const response = await fetch(`${API}/students/${id}`, {
 
             method: "DELETE"
 
@@ -253,7 +259,8 @@ deleteBtn.addEventListener("click", async function () {
         clearForm();
 
     }
-    catch(err){
+
+    catch (err) {
 
         console.log(err);
 
