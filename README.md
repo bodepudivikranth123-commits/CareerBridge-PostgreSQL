@@ -90,25 +90,41 @@ The system consists of the following relational tables:
 # 📂 Project Structure
 
 ```text
-CareerBridge-PostgreSQL
+CareerBridge
 │
-├── backend
-│   ├── routes
-│   ├── db.js
-│   ├── server.js
-│   ├── package.json
-│   └── .env
+├── CareerBridge-Frontend
+│   ├── css/
+│   ├── js/
+│   ├── images/
+│   ├── index.html
+│   ├── students.html
+│   ├── departments.html
+│   ├── companies.html
+│   ├── jobroles.html
+│   ├── drives.html
+│   ├── applications.html
+│   ├── offers.html
+│   └── reports.html
 │
-├── SQL
-│   ├── 01_create_tables.sql
-│   ├── 02_insert_data.sql
-│   ├── 03_queries.sql
-│   ├── 04_views.sql
-│   ├── 05_procedures.sql
-│   ├── 06_functions.sql
-│   └── 07_triggers.sql
-│
-└── README.md
+└── CareerBridge-PostgreSQL
+    │
+    ├── backend
+    │   ├── routes
+    │   ├── db.js
+    │   ├── server.js
+    │   ├── package.json
+    │   └── .env
+    │
+    ├── SQL
+    │   ├── 01_create_tables.sql
+    │   ├── 02_insert_data.sql
+    │   ├── 03_queries.sql
+    │   ├── 04_views.sql
+    │   ├── 05_procedures.sql
+    │   ├── 06_functions.sql
+    │   └── 07_triggers.sql
+    │
+    └── README.md
 ```
 
 ---
@@ -183,7 +199,7 @@ The system generates reports such as:
 Clone the repository
 
 ```bash
-git clone https://github.com/your-username/CareerBridge-PostgreSQL.git
+git clone https://github.com/bodepudivikranth123-commits/CareerBridge-PostgreSQL.git
 ```
 
 Move to backend
@@ -201,7 +217,7 @@ npm install
 Create a `.env`
 
 ```env
-DATABASE_URL=YOUR_NEON_DATABASE_URL
+DATABASE_URL=postgresql://neondb_owner:npg_VW2U3YMQXHpg@ep-bitter-forest-adpmyvgr.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require
 PORT=3000
 ```
 
@@ -247,5 +263,3 @@ This project demonstrates practical knowledge of:
 **Vikranth Bodepudi**
 
 **CareerBridge** was developed as an academic **Database Management System (DBMS)** project to demonstrate the practical implementation of PostgreSQL database concepts through a real-world Placement Management System.
-
-⭐ If you found this project interesting, consider giving it a **Star** on GitHub!
