@@ -1,95 +1,103 @@
-# CareerBridge - DBMS Placement Management System
+# 🎓 CareerBridge - DBMS Placement Management System
 
-## Overview
+<p align="center">
 
-CareerBridge is a **Database Management System (DBMS) project** developed to automate and manage the campus placement process. The project demonstrates the practical implementation of relational database concepts using **PostgreSQL**, along with a Node.js and Express.js backend to interact with the database through REST APIs.
+A **Database Management System (DBMS)** project that automates the campus placement process using **PostgreSQL**.  
+CareerBridge demonstrates the practical implementation of **Relational Database Design, SQL Programming, Triggers, Views, Stored Procedures, Functions, and REST APIs** in a real-world Placement Management System.
 
-The primary objective of this project is to showcase DBMS concepts such as relational schema design, normalization, constraints, SQL queries, views, stored procedures, functions, triggers, and CRUD operations in a real-world application.
-
----
-
-## DBMS Concepts Implemented
-
-- Relational Database Design
-- Primary Keys
-- Foreign Keys
-- Identity Columns (Automatic ID Generation)
-- Constraints
-  - NOT NULL
-  - UNIQUE
-  - CHECK
-  - PRIMARY KEY
-  - FOREIGN KEY
-- Joins
-- Aggregate Functions
-- Nested Queries
-- Views
-- Stored Procedures
-- User Defined Functions
-- Triggers
-- CRUD Operations
-- Database Normalization
-- Referential Integrity
+</p>
 
 ---
 
-## Modules
+## ✨ Project Highlights
 
-- Student Management
-- Department Management
-- Company Management
-- Job Role Management
-- Placement Drive Management
-- Application Management
-- Offer Management
-- Placement Reports
-
----
-
-## Database Tables
-
-- Departments
-- Students
-- Companies
-- JobRoles
-- PlacementDrives
-- Applications
-- Offers
-- Student_CGPA_Log
+- 🎯 Complete Placement Management System
+- 🗄️ PostgreSQL Relational Database
+- 🔑 Automatic ID Generation using Identity Columns
+- 🔄 Full CRUD Operations
+- 📊 Placement Reports & Analytics
+- ⚡ REST API using Express.js
+- ☁️ PostgreSQL hosted on **Neon**
+- 🚀 Backend deployed on **Render**
+- 🌐 Frontend deployed on **Vercel**
 
 ---
 
-## Technologies Used
+# 📚 DBMS Concepts Implemented
 
-### Database
-- PostgreSQL (Neon)
+| Concept | Status |
+|---------|:------:|
+| Relational Database Design | ✅ |
+| Normalization | ✅ |
+| Primary & Foreign Keys | ✅ |
+| Constraints | ✅ |
+| Identity Columns | ✅ |
+| Joins | ✅ |
+| Aggregate Queries | ✅ |
+| Nested Queries | ✅ |
+| Views | ✅ |
+| Stored Procedures | ✅ |
+| Functions | ✅ |
+| Triggers | ✅ |
+| CRUD Operations | ✅ |
+| REST API Integration | ✅ |
 
-### Backend
+---
+
+# 🏗 Database Schema
+
+The system consists of the following relational tables:
+
+- 📘 Departments
+- 👨‍🎓 Students
+- 🏢 Companies
+- 💼 Job Roles
+- 📅 Placement Drives
+- 📝 Applications
+- 🎉 Offers
+- 📈 Student CGPA Log
+
+---
+
+# ⚙️ Tech Stack
+
+## Database
+
+- PostgreSQL
+- Neon Database
+
+## Backend
+
 - Node.js
 - Express.js
-- pg (PostgreSQL Driver)
+- pg
+- dotenv
+- CORS
 
-### Frontend
-- HTML
-- CSS
+## Frontend
+
+- HTML5
+- CSS3
 - JavaScript
 
-### Deployment
-- Render (Backend)
-- Vercel (Frontend)
+## Deployment
+
+- Render
+- Vercel
 
 ---
 
-## Project Structure
+# 📂 Project Structure
 
-```
+```text
 CareerBridge-PostgreSQL
 │
 ├── backend
 │   ├── routes
 │   ├── db.js
 │   ├── server.js
-│   └── package.json
+│   ├── package.json
+│   └── .env
 │
 ├── SQL
 │   ├── 01_create_tables.sql
@@ -105,36 +113,139 @@ CareerBridge-PostgreSQL
 
 ---
 
-## Key Features
+# 📋 Features
 
-- Complete Placement Management Database
-- Automatic Primary Key Generation
-- CRUD Operations through REST APIs
-- Placement Analytics and Reports
-- Validation using Triggers
-- Business Logic using Stored Procedures
-- Reusable Database Functions
-- SQL Views for Simplified Reporting
-- Fully Normalized Database Design
+## 👨‍🎓 Student Module
+
+- Add Student
+- Update Student
+- Delete Student
+- View Student Records
 
 ---
 
-## Learning Outcomes
+## 🏢 Department Module
 
-This project demonstrates practical implementation of:
+- Add Department
+- Update Department
+- Delete Department
 
-- Entity Relationship Modeling
+---
+
+## 💼 Company Module
+
+- Company Management
+- Job Role Management
+- Placement Drive Scheduling
+
+---
+
+## 📝 Placement Module
+
+- Student Applications
+- Offer Management
+- Placement Reports
+
+---
+
+# 📊 Reports
+
+The system generates reports such as:
+
+- 📈 Students by Department
+- 💰 Highest Package Offered
+- 🎓 Average Student CGPA
+- 🏢 Company-wise Applications
+- 📅 Upcoming Placement Drives
+- ⭐ Above Average Salary Roles
+- 🎉 Total Offers
+- ✅ Selected Students
+
+---
+
+# 🔌 REST API Endpoints
+
+| Module | Endpoints |
+|---------|-----------|
+| Students | GET • POST • PUT • DELETE |
+| Departments | GET • POST • PUT • DELETE |
+| Companies | GET • POST • PUT • DELETE |
+| Job Roles | GET • POST • PUT • DELETE |
+| Drives | GET • POST • PUT • DELETE |
+| Applications | GET • POST • PUT • DELETE |
+| Offers | GET • POST • PUT • DELETE |
+| Reports | GET |
+
+---
+
+# 🚀 Installation
+
+Clone the repository
+
+```bash
+git clone https://github.com/your-username/CareerBridge-PostgreSQL.git
+```
+
+Move to backend
+
+```bash
+cd backend
+```
+
+Install dependencies
+
+```bash
+npm install
+```
+
+Create a `.env`
+
+```env
+DATABASE_URL=YOUR_NEON_DATABASE_URL
+PORT=3000
+```
+
+Run
+
+```bash
+node server.js
+```
+
+---
+
+# 🎯 Learning Outcomes
+
+This project demonstrates practical knowledge of:
+
 - Relational Database Design
+- PostgreSQL
+- Database Normalization
 - SQL Programming
-- PostgreSQL Database Development
+- Trigger Programming
+- Stored Procedures
+- Functions
+- Views
 - Backend Database Connectivity
-- REST API Integration
-- Database Deployment using Neon
+- REST API Development
+- Cloud Database Deployment
 
 ---
 
-## Author
+# 📌 Future Improvements
+
+- 🔐 User Authentication
+- 📄 Resume Upload
+- 📧 Email Notifications
+- 📈 Dashboard Charts
+- 👨‍💼 Company Portal
+- 🎓 Student Login
+
+---
+
+# 👨‍💻 Author
 
 **Vikranth Bodepudi**
 
-CareerBridge was developed as an academic **DBMS project** to demonstrate the implementation of core database concepts using PostgreSQL in a real-world Placement Management System.
+**CareerBridge** was developed as an academic **Database Management System (DBMS)** project to demonstrate the practical implementation of PostgreSQL database concepts through a real-world Placement Management System.
+
+⭐ If you found this project interesting, consider giving it a **Star** on GitHub!
